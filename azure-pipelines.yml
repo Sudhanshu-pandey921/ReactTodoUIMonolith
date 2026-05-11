@@ -21,7 +21,3 @@ steps:
     npm run build
   displayName: Build React App
 
-- script: |
-    sudo rm -rf /var/www/reactapp/*
-    sudo cp -r build/* /var/www/reactapp/
-  displayName: Deploy to VM
