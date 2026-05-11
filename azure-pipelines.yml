@@ -1,8 +1,28 @@
-trigger: none 
-pool: Default
+trigger:
+- main
 
-steps: 
-- task: PowerShell@2
+pool:
+  name: myagentpool
+
+variables:
+  nodeVersion: '16.x'
+
+steps:
+
+- task: NodeTool@0
   inputs:
-    targetType: 'inline'
-    script: 'Write-Host "Hello World"'
+    versionSpec: $(nodeVersion)
+  displayName: Install NodeJS
+
+- script: |
+    npm install
+  displayName: Install Dependencies
+
+- script: |
+    npm run build
+  displayName: Build React App
+
+- script: |
+    sudo rm -rf /var/www/reactapp/*
+    sudo cp -r build/* /var/www/reactapp/
+  displayName: Deploy to VM
